@@ -4,9 +4,13 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Engecalc — Engenharia de Estruturas</title>
+<title>Engecalc — Engenharia Estrutural</title>
 
 <meta name="description" content="Projetos estruturais e ATPs para empreendimentos em concreto armado, alvenaria estrutural e paredes de concreto.">
+
+<!-- Favicon: "E" da marca Engecalc em quadrado petróleo (SVG embutido, sem arquivo externo) -->
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%20256%20256%22%3E%3Crect%20width%3D%22256%22%20height%3D%22256%22%20rx%3D%2252%22%20fill%3D%22%2312222E%22%2F%3E%3Cg%20transform%3D%22translate%2857.41%2C202.94%29%20scale%280.725%29%22%20fill%3D%22%23F5F7F8%22%3E%3Cpath%20d%3D%22M%2030.0625%200%20L%2030.0625%20-206.8125%20L%20164.734375%20-206.8125%20L%20164.734375%20-182.765625%20L%2055.90625%20-182.765625%20L%2055.90625%20-116.328125%20L%20150.296875%20-116.328125%20L%20150.296875%20-92.28125%20L%2055.90625%20-92.28125%20L%2055.90625%20-24.046875%20L%20164.734375%20-24.046875%20L%20164.734375%200%20Z%22%2F%3E%3C%2Fg%3E%3C%2Fsvg%3E">
+<link rel="apple-touch-icon" href="data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%20256%20256%22%3E%3Crect%20width%3D%22256%22%20height%3D%22256%22%20rx%3D%2252%22%20fill%3D%22%2312222E%22%2F%3E%3Cg%20transform%3D%22translate%2857.41%2C202.94%29%20scale%280.725%29%22%20fill%3D%22%23F5F7F8%22%3E%3Cpath%20d%3D%22M%2030.0625%200%20L%2030.0625%20-206.8125%20L%20164.734375%20-206.8125%20L%20164.734375%20-182.765625%20L%2055.90625%20-182.765625%20L%2055.90625%20-116.328125%20L%20150.296875%20-116.328125%20L%20150.296875%20-92.28125%20L%2055.90625%20-92.28125%20L%2055.90625%20-24.046875%20L%20164.734375%20-24.046875%20L%20164.734375%200%20Z%22%2F%3E%3C%2Fg%3E%3C%2Fsvg%3E">
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -375,9 +379,6 @@
     position:relative;
 
     padding-block:clamp(64px,12vh,132px);
-
-    max-width:940px;
-    margin-inline:auto;
 }
 
 
@@ -426,6 +427,26 @@
     gap:14px;
 
     flex-wrap:wrap;
+}
+
+
+/* Os dois botões do hero com o mesmo tamanho:
+   mesma largura mínima + texto centralizado. */
+.hero .cta-row .btn{
+    min-width:250px;
+    text-align:center;
+}
+
+
+@media (max-width:520px){
+    .hero .cta-row{
+        flex-direction:column;
+    }
+
+    .hero .cta-row .btn{
+        min-width:0;
+        width:100%;
+    }
 }
 
 
@@ -800,7 +821,7 @@ footer{
 
     color:#8499A4;
 
-    padding-block:40px;
+    padding-block:64px;
 
     font-size:0.86rem;
 }
@@ -809,29 +830,42 @@ footer{
 footer .wrap{
     display:flex;
 
-    justify-content:space-between;
+    flex-direction:column;
 
-    gap:20px;
+    align-items:center;
 
-    flex-wrap:wrap;
+    text-align:center;
+
+    gap:30px;
 }
 
 
-footer .fw{
-    color:var(--white);
+/* Logo grande, em destaque, branca sobre o fundo petróleo */
+.footer-logo{
+    height:96px;
+    width:auto;
+    max-width:100%;
+    display:block;
 
-    font-family:"Saira",sans-serif;
-
-    font-weight:600;
-
-    letter-spacing:0.02em;
+    filter:brightness(0) invert(1);
 }
 
 
-footer .rt{
-    text-align:right;
-
+footer .footer-meta{
     line-height:1.7;
+
+    padding-top:26px;
+
+    border-top:1px solid var(--petrol-line);
+
+    width:min(420px, 100%);
+}
+
+
+@media (max-width:520px){
+    .footer-logo{
+        height:64px;
+    }
 }
 
 
@@ -971,7 +1005,7 @@ footer .rt{
         </span>
 
         <nav>
-            Engenharia de Estruturas
+            Engenharia Estrutural
         </nav>
 
     </div>
@@ -1416,26 +1450,16 @@ footer .rt{
     <div class="wrap">
 
 
-        <div>
-
-            <div class="fw">
-                Engecalc
-            </div>
-
-
-            <div>
-                Engenharia de Estruturas
-            </div>
-
-        </div>
+        <img
+            class="footer-logo"
+            src="1_sem_fundo.svg"
+            alt="Engecalc — Engenharia Estrutural"
+            width="1500"
+            height="458">
 
 
-        <div class="rt">
-
-            <div>
-                © 2026 Engecalc. Todos os direitos reservados.
-            </div>
-
+        <div class="footer-meta">
+            © 2026 Engecalc. Todos os direitos reservados.
         </div>
 
 
