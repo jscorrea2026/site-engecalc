@@ -6,7 +6,7 @@
 
 <title>Engecalc — Engenharia Estrutural</title>
 
-<meta name="description" content="Projetos estruturais e ATPs para empreendimentos em concreto armado, alvenaria estrutural e paredes de concreto.">
+<meta name="description" content="Projetos estruturais e ATPs que atendem aos mais diversos portes.">
 
 <!-- Favicon: "E" da marca Engecalc em quadrado petróleo (SVG embutido, sem arquivo externo) -->
 <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%20256%20256%22%3E%3Crect%20width%3D%22256%22%20height%3D%22256%22%20rx%3D%2252%22%20fill%3D%22%2312222E%22%2F%3E%3Cg%20transform%3D%22translate%2857.41%2C202.94%29%20scale%280.725%29%22%20fill%3D%22%23F5F7F8%22%3E%3Cpath%20d%3D%22M%2030.0625%200%20L%2030.0625%20-206.8125%20L%20164.734375%20-206.8125%20L%20164.734375%20-182.765625%20L%2055.90625%20-182.765625%20L%2055.90625%20-116.328125%20L%20150.296875%20-116.328125%20L%20150.296875%20-92.28125%20L%2055.90625%20-92.28125%20L%2055.90625%20-24.046875%20L%20164.734375%20-24.046875%20L%20164.734375%200%20Z%22%2F%3E%3C%2Fg%3E%3C%2Fsvg%3E">
@@ -72,13 +72,18 @@
   }
 
 
+  /* Rótulo acima dos títulos: mesmo estilo e espaçamento em todas
+     as seções (só a cor muda entre fundo claro e fundo petróleo) */
   .eyebrow{
     font-family:"Saira",sans-serif;
     font-weight:600;
     font-size:0.72rem;
+    line-height:1.55;
     letter-spacing:0.22em;
     text-transform:uppercase;
+    text-align:left;
     color:var(--slate);
+    margin:0 0 14px;
   }
 
 
@@ -95,79 +100,137 @@
 
 
 /* =========================================================
-   GALERIA / CARROSSEL
+   SERVIÇOS (dentro de "Atuação")
    ========================================================= */
 
-.portfolio{
-    padding-top:0;
-    padding-bottom:clamp(56px, 9vh, 104px);
-    overflow:hidden;
+.services{
+    display:grid;
+    gap:clamp(48px, 7vh, 72px);
 }
 
 
-/* ---------- CARROSSEL ---------- */
+.service-head{
+    max-width:62ch;
+    margin-bottom:20px;
+}
 
-.carousel{
+
+.service-head h3{
+    font-size:1.55rem;
+    color:var(--petrol);
+}
+
+
+.service-head p{
+    color:var(--slate);
+    margin:8px 0 0;
+    font-size:1.02rem;
+}
+
+
+
+
+/* ---------- CARROSSEL (loop infinito) ---------- */
+
+.slider{
     position:relative;
-    display:flex;
-    align-items:center;
-    width:100%;
-}
-
-
-.carousel-window{
-    width:100%;
     overflow:hidden;
 }
 
 
-.carousel-track{
+.slider-track{
     display:flex;
-    align-items:center;
-    gap:15px;
-    transition:transform 0.5s cubic-bezier(.22,.61,.36,1);
+    gap:16px;
+    will-change:transform;
 }
 
 
-/* ---------- IMAGENS ---------- */
+@media (prefers-reduced-motion:no-preference){
+    .slider-track{
+        transition:transform .45s cubic-bezier(.22,.61,.36,1);
+    }
+}
 
-.gallery-item{
-    flex:0 0 20%;
-    height:280px;
+
+/* Três imagens visíveis no desktop */
+.slide{
+    flex:0 0 calc((100% - 32px) / 3);
+    aspect-ratio:4 / 3;
+    margin:0;
     overflow:hidden;
-    cursor:pointer;
-    background:var(--paper);
+    background:var(--white);
+}
 
+
+.slide img{
+    width:100%;
+    height:100%;
+    object-fit:cover;
+    display:block;
+    cursor:zoom-in;
+    transition:transform .4s ease;
+}
+
+
+.slide:hover img{
+    transform:scale(1.03);
+}
+
+
+/* Carrossel com data-fit="contain": mostra a imagem inteira, sem
+   recorte. Altura fixa e largura conforme a proporção de cada imagem,
+   então o cartão (e a borda) tem exatamente o tamanho da imagem. */
+.slider[data-fit="contain"] .slide{
+    flex:0 0 auto;
+    height:240px;
+    aspect-ratio:auto;
+}
+
+
+.slider[data-fit="contain"] .slide img{
+    width:auto;
+    height:100%;
+}
+
+
+.slider[data-fit="contain"] .slide.placeholder{
+    aspect-ratio:4 / 3;
+}
+
+
+@media (max-width:520px){
+    .slider[data-fit="contain"] .slide{
+        height:200px;
+    }
+}
+
+
+/* Espaço reservado enquanto as imagens não são definidas */
+.slide.placeholder{
     display:flex;
     align-items:center;
     justify-content:center;
 
-    opacity:0.55;
-    transition:opacity 0.35s ease;
-}
+    border:1px dashed var(--line);
 
-
-.gallery-item.active{
-    opacity:1;
-}
-
-
-.gallery-item img{
-    width:100%;
-    height:100%;
-    object-fit:contain;
-    display:block;
+    color:var(--slate);
+    font-size:0.72rem;
+    font-weight:600;
+    letter-spacing:0.18em;
+    text-transform:uppercase;
 }
 
 
 /* ---------- SETAS ---------- */
 
-.carousel-btn{
+.slider-btn{
     position:absolute;
+    top:50%;
+    transform:translateY(-50%);
     z-index:5;
 
-    width:46px;
-    height:46px;
+    width:44px;
+    height:44px;
 
     border:1px solid rgba(255,255,255,.8);
     border-radius:50%;
@@ -179,34 +242,88 @@
     align-items:center;
     justify-content:center;
 
-    font-size:20px;
+    font-size:18px;
     cursor:pointer;
 
-    transition:
-        background .2s ease,
-        transform .2s ease;
+    transition:background .2s ease;
 }
 
 
-.carousel-btn:hover{
+.slider-btn:hover{
     background:var(--petrol);
-    transform:scale(1.05);
 }
 
 
-.carousel-prev{
-    left:18px;
+.slider-prev{
+    left:12px;
 }
 
 
-.carousel-next{
-    right:18px;
+.slider-next{
+    right:12px;
 }
 
 
 /* =========================================================
    LIGHTBOX
    ========================================================= */
+
+/* =========================================================
+   BOTÃO FLUTUANTE — WHATSAPP
+   Fica fixo no canto inferior direito durante a rolagem.
+   ========================================================= */
+
+.whatsapp-float{
+    position:fixed;
+    right:24px;
+    bottom:24px;
+    z-index:900;
+
+    width:58px;
+    height:58px;
+    border-radius:50%;
+
+    background:#25D366;
+    color:var(--white);
+
+    display:flex;
+    align-items:center;
+    justify-content:center;
+
+    box-shadow:0 6px 18px rgba(0,0,0,.25);
+
+    transition:
+        transform .2s ease,
+        box-shadow .2s ease;
+}
+
+
+.whatsapp-float:hover{
+    transform:scale(1.07);
+    box-shadow:0 8px 24px rgba(0,0,0,.3);
+}
+
+
+.whatsapp-float svg{
+    width:32px;
+    height:32px;
+}
+
+
+@media (max-width:520px){
+    .whatsapp-float{
+        right:16px;
+        bottom:16px;
+        width:52px;
+        height:52px;
+    }
+
+    .whatsapp-float svg{
+        width:28px;
+        height:28px;
+    }
+}
+
 
 .lightbox{
     position:fixed;
@@ -271,7 +388,7 @@
 
 
 /* =========================================================
-   TOPO / WORDMARK
+   TOPO / ASSINATURA
    ========================================================= */
 
 .masthead{
@@ -282,7 +399,7 @@
 
 .masthead .wrap{
     display:flex;
-    align-items:baseline;
+    align-items:center;
     justify-content:space-between;
 
     padding-block:22px;
@@ -294,21 +411,25 @@
 }
 
 
-.wordmark{
-    font-family:"Saira",sans-serif;
-    font-weight:600;
-    font-size:1.35rem;
-    letter-spacing:0.02em;
-    color:var(--white);
+/* Assinatura oficial (logotipo + descritor), versão reverso branca.
+   Mínimo do manual: 130 px de largura. */
+.brand{
+    display:block;
+    line-height:0;
 }
 
 
-.masthead nav{
-    font-size:0.8rem;
-    letter-spacing:0.12em;
-    text-transform:uppercase;
-    color:var(--reverse);
-    font-weight:500;
+.brand img{
+    height:44px;
+    width:auto;
+    display:block;
+}
+
+
+@media (max-width:520px){
+    .brand img{
+        height:36px;
+    }
 }
 
 
@@ -397,8 +518,6 @@
     );
 
     max-width:18ch;
-
-    margin-top:18px;
 }
 
 
@@ -492,7 +611,7 @@
 
 
 /* =========================================================
-   SISTEMAS
+   SEÇÕES / CABEÇALHO DE SEÇÃO
    ========================================================= */
 
 section{
@@ -512,12 +631,11 @@ section{
         3.4vw,
         2.6rem
     );
-
-    margin-top:12px;
 }
 
 
-.section-head p{
+/* Texto de apoio do cabeçalho (o rótulo .eyebrow tem estilo próprio) */
+.section-head p:not(.eyebrow){
     color:var(--slate);
 
     margin-top:14px;
@@ -526,95 +644,18 @@ section{
 }
 
 
-.systems{
-    display:grid;
+/* =========================================================
+   COMPETÊNCIA (fundo branco)
+   ========================================================= */
 
-    grid-template-columns:
-        repeat(3,1fr);
-
-    border-top:1px solid var(--line);
-}
-
-
-.system{
-    padding:34px 30px 40px 0;
-
-    border-bottom:1px solid var(--line);
-}
-
-
-.system:not(:last-child){
-    border-right:1px solid var(--line);
-}
-
-
-.system{
-    padding-inline:
-        clamp(0px,2vw,30px);
-}
-
-
-.system:first-child{
-    padding-left:0;
-}
-
-
-.system .num{
-    font-family:
-        "Saira SemiCondensed",
-        sans-serif;
-
-    font-weight:600;
-
-    font-size:0.78rem;
-
-    letter-spacing:0.18em;
-
-    color:var(--slate);
-}
-
-
-.system h3{
-    font-size:1.55rem;
-
-    margin-top:14px;
-
+.competence{
+    background:var(--white);
     color:var(--petrol);
 }
 
 
-.system p{
-    color:var(--slate);
-
-    margin-top:12px;
-
-    font-size:0.98rem;
-}
-
-
-/* =========================================================
-   COMPETÊNCIA
-   ========================================================= */
-
-.competence{
-    background:var(--petrol);
-    color:var(--reverse);
-}
-
-
-.competence .eyebrow{
-    color:#9FB1BB;
-
-    max-width:46ch;
-
-    letter-spacing:0.16em;
-
-    line-height:1.55;
-}
-
-
 .competence h2{
-    color:var(--white);
+    color:var(--petrol);
 
     font-size:clamp(
         1.7rem,
@@ -622,14 +663,12 @@ section{
         2.6rem
     );
 
-    margin-top:12px;
-
     max-width:28ch;
 }
 
 
 .competence p.body{
-    color:var(--reverse);
+    color:var(--slate);
 
     max-width:60ch;
 
@@ -639,91 +678,90 @@ section{
 }
 
 
-/* =========================================================
-   NÚMEROS
-   ========================================================= */
+.competence .slider{
+    margin-top:40px;
+}
 
-.metrics{
-    display:grid;
 
-    grid-template-columns:
-        repeat(3,1fr);
-
-    margin-top:0;
-
-    gap:1px;
-
-    background:var(--line);
-
+/* Em fundo branco, borda fina para os cartões não se perderem */
+.competence .slide{
     border:1px solid var(--line);
 }
 
 
-.metric{
-    background:var(--paper);
+/* =========================================================
+   RESPONSÁVEL TÉCNICO (fundo cinza-claro)
+   ========================================================= */
 
-    padding:28px 26px;
+.tech{
+    background:var(--paper);
+    color:var(--petrol);
 }
 
 
-.metric .val{
-    font-family:
-        "Saira SemiCondensed",
-        sans-serif;
+.tech .eyebrow{
+    color:var(--slate);
+}
 
-    font-weight:700;
 
+.tech h2{
     color:var(--petrol);
 
     font-size:clamp(
-        2rem,
-        4.5vw,
-        3rem
+        1.6rem,
+        3vw,
+        2.2rem
     );
-
-    line-height:1;
 }
 
 
-.metric .lbl{
+/* Registro profissional ao lado do nome */
+.tech .crea{
+    font-family:"Saira",sans-serif;
+    font-weight:500;
+    font-size:1rem;
+    letter-spacing:0.02em;
     color:var(--slate);
 
-    font-size:0.86rem;
+    margin-left:10px;
+    white-space:nowrap;
+}
 
-    margin-top:12px;
 
-    letter-spacing:0.02em;
+.tech-list{
+    margin:22px 0 0;
+    padding-left:1.2em;
+
+    max-width:72ch;
+
+    list-style:square;
+
+    color:var(--slate);
+    font-size:1.06rem;
+}
+
+
+.tech-list li{
+    padding-left:6px;
+}
+
+
+.tech-list li + li{
+    margin-top:8px;
+}
+
+
+.tech-list li::marker{
+    color:var(--petrol);
 }
 
 
 /* =========================================================
-   CONTATO
+   CONTATO (fundo branco)
    ========================================================= */
 
 .contact{
-    position:relative;
-
-    padding-top:72px;
-}
-
-
-.contact::before{
-    content:"";
-
-    display:block;
-
-    width:
-      min(
-        var(--maxw),
-        calc(100% - 2 * var(--gutter))
-      );
-
-    height:1px;
-
-    background:var(--line);
-
-    margin:
-      0 auto 42px;
+    background:var(--white);
 }
 
 
@@ -735,7 +773,8 @@ section{
 
     gap:48px 64px;
 
-    align-items:start;
+    /* As duas colunas com a mesma altura: topo e base alinhados */
+    align-items:stretch;
 }
 
 
@@ -756,11 +795,20 @@ section{
     font-size:1.05rem;
 
     max-width:42ch;
+
+    margin-bottom:0;
 }
 
 
+/* Itens distribuídos na altura da coluna: o primeiro alinha com
+   "Contato" e o último com o fim do texto ao lado */
 .contact dl{
     margin:0;
+
+    display:flex;
+    flex-direction:column;
+    justify-content:space-between;
+    gap:22px;
 }
 
 
@@ -840,14 +888,12 @@ footer .wrap{
 }
 
 
-/* Logo grande, em destaque, branca sobre o fundo petróleo */
+/* Assinatura oficial (logotipo + descritor), versão reverso branca */
 .footer-logo{
     height:96px;
     width:auto;
     max-width:100%;
     display:block;
-
-    filter:brightness(0) invert(1);
 }
 
 
@@ -875,29 +921,6 @@ footer .footer-meta{
 
 @media (max-width:820px){
 
-    .systems{
-        grid-template-columns:1fr;
-    }
-
-
-    .system,
-    .system:not(:last-child){
-        border-right:none;
-
-        padding-inline:0;
-    }
-
-
-    .system:first-child{
-        padding-left:0;
-    }
-
-
-    .metrics{
-        grid-template-columns:1fr;
-    }
-
-
     .contact .wrap{
         grid-template-columns:1fr;
     }
@@ -910,32 +933,36 @@ footer .footer-meta{
 }
 
 
-@media (max-width:768px){
+@media (max-width:820px){
 
-    .gallery-item{
-        flex-basis:82%;
+    .slide{
+        flex-basis:calc((100% - 16px) / 2);
+    }
+
+}
+
+
+@media (max-width:520px){
+
+    .slide{
+        flex-basis:85%;
     }
 
 
-    .carousel-track{
-        gap:15px;
-    }
-
-
-    .carousel-btn{
+    .slider-btn{
         width:40px;
         height:40px;
 
-        font-size:17px;
+        font-size:16px;
     }
 
 
-    .carousel-prev{
+    .slider-prev{
         left:8px;
     }
 
 
-    .carousel-next{
+    .slider-next{
         right:8px;
     }
 
@@ -993,20 +1020,20 @@ footer .footer-meta{
 
 
 <!-- =========================================================
-     WORDMARK / TOPO
+     TOPO / ASSINATURA
      ========================================================= -->
 
 <header class="masthead">
 
     <div class="wrap">
 
-        <span class="wordmark">
-            Engecalc
-        </span>
-
-        <nav>
-            Engenharia Estrutural
-        </nav>
+        <a class="brand" href="#" aria-label="Engecalc — início">
+            <img
+                src="marca/engecalc_logo_branco.svg"
+                alt="Engecalc — Engenharia Estrutural"
+                width="1512"
+                height="401">
+        </a>
 
     </div>
 
@@ -1032,8 +1059,7 @@ footer .footer-meta{
 
 
         <p class="lead fade d2">
-            Projetos estruturais e ATPs para empreendimentos em concreto armado,
-            alvenaria estrutural e paredes de concreto.
+            Projetos estruturais e ATPs que atendem aos mais diversos portes.
         </p>
 
 
@@ -1056,7 +1082,7 @@ footer .footer-meta{
 
 
 <!-- =========================================================
-     SISTEMAS
+     ATUAÇÃO
      ========================================================= -->
 
 <section id="sistemas">
@@ -1066,89 +1092,116 @@ footer .footer-meta{
         <div class="section-head">
 
             <p class="eyebrow">
-                Sistemas construtivos
+                ATUAÇÃO
             </p>
 
 
             <h2>
-                Projetos e ATPs para diferentes sistemas,
-                respeitando as particularidades de cada solução.
+                Projetos e ATPs que respeitam as particularidades de cada sistema,
+                para os mais diversos portes.
             </h2>
 
 
-            <p>
-                Desenvolvemos projetos estruturais e ATPs para os três principais
-                sistemas construtivos empregados em edificações verticais.
-            </p>
+            <!-- <p>
+                Desenvolvemos projetos estruturais e ATPs  que atendem aos mais diversos portes.
+            </p> -->
 
         </div>
 
 
-        <div class="systems">
+        <!-- Serviços: cada um tem seu carrossel. As imagens são
+             definidas no script, no objeto "portfolio". -->
+
+        <div class="services">
 
 
-            <div class="system">
+            <article class="service">
 
-                <span class="num">
-                    01
-                </span>
+                <div class="service-head">
 
+                    <h3>
+                        Projetos estruturais de edifícios
+                    </h3>
 
-                <h3>
-                    Concreto armado e protendido
-                </h3>
+                    <p>
+                        Edificações verticais em concreto armado e alvenaria estrutural.
+                    </p>
 
-
-                <p>
-                    Sistema versátil e consolidado, capaz de atender a diferentes
-                    configurações arquitetônicas e condições de projeto.
-                </p>
-
-            </div>
+                </div>
 
 
-            <div class="system">
+                <div class="slider" data-gallery="projetos-estruturais">
 
-                <span class="num">
-                    02
-                </span>
+                    <button class="slider-btn slider-prev" aria-label="Imagens anteriores">&#10094;</button>
 
+                    <div class="slider-track"></div>
 
-                <h3>
-                    Alvenaria estrutural
-                </h3>
+                    <button class="slider-btn slider-next" aria-label="Próximas imagens">&#10095;</button>
 
+                </div>
 
-                <p>
-                    Sistema racionalizado, baseado em modulação e coordenação entre
-                    projeto e execução, com potencial para reduzir desperdícios e
-                    aumentar a produtividade.
-                </p>
-
-            </div>
+            </article>
 
 
-            <div class="system">
+            <article class="service">
 
-                <span class="num">
-                    03
-                </span>
+                <div class="service-head">
+
+                    <h3>
+                        ATP
+                    </h3>
+
+                    <p>
+                        Análise técnica de edificações em concreto armado/protendido,
+                        alvenaria estrutural e paredes de concreto.
+                    </p>
+
+                </div>
 
 
-                <h3>
-                    Paredes de concreto
-                </h3>
+                <div class="slider" data-gallery="atp">
+
+                    <button class="slider-btn slider-prev" aria-label="Imagens anteriores">&#10094;</button>
+
+                    <div class="slider-track"></div>
+
+                    <button class="slider-btn slider-next" aria-label="Próximas imagens">&#10095;</button>
+
+                </div>
+
+            </article>
 
 
-                <p>
-                    Sistema voltado à padronização e à produtividade, especialmente
-                    adequado a empreendimentos com alta repetição de unidades.
-                </p>
+            <article class="service">
 
-            </div>
+                <div class="service-head">
+
+                    <h3>
+                        Projetos estruturais de residências
+                    </h3>
+
+                    <p>
+                        Residências em condomínios de alto padrão.
+                    </p>
+
+                </div>
+
+
+                <div class="slider" data-gallery="residencias">
+
+                    <button class="slider-btn slider-prev" aria-label="Imagens anteriores">&#10094;</button>
+
+                    <div class="slider-track"></div>
+
+                    <button class="slider-btn slider-next" aria-label="Próximas imagens">&#10095;</button>
+
+                </div>
+
+            </article>
 
 
         </div>
+
 
     </div>
 
@@ -1174,141 +1227,63 @@ footer .footer-meta{
 
 
         <p class="body">
-            Informação clara e detalhamento bem resolvido são fundamentais para que o
+            Compatibilização, informação clara e detalhamento bem resolvido são fundamentais para que o
             canteiro siga sem interrupções. Projeto e comunicação andam juntos — é essa
             combinação que ajuda a manter a obra em andamento.
         </p>
 
 
-        <p style="
-            margin-top:32px;
-            font-size:26px;
-            font-weight:700;
-            line-height:1.3;
-        ">
-            E este é o nosso objetivo!
+        <div class="slider" data-gallery="projeto-e-obra" data-title="Projeto e obra" data-fit="contain">
+
+            <button class="slider-btn slider-prev" aria-label="Imagens anteriores">&#10094;</button>
+
+            <div class="slider-track"></div>
+
+            <button class="slider-btn slider-next" aria-label="Próximas imagens">&#10095;</button>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- =========================================================
+     RESPONSÁVEL TÉCNICO
+     ========================================================= -->
+
+<section class="tech" id="responsavel-tecnico">
+
+    <div class="wrap">
+
+        <p class="eyebrow">
+            Responsável Técnico
         </p>
 
-    </div>
 
-</section>
-
-
-<!-- =========================================================
-     NÚMEROS
-     ========================================================= -->
-
-<section class="numbers">
-
-    <div class="wrap">
-
-        <div class="section-head">
-
-            <h2>
-                Experiência em números
-            </h2>
+        <h2>
+            Eng. Jackson Corrêa
+            <span class="crea">CREA MG 215.272</span>
+        </h2>
 
 
-            <p>
-                Experiência acumulada ao longo de anos de atuação no desenvolvimento e
-                detalhamento de projetos estruturais, de diferentes portes e complexidades:
-            </p>
+        <ul class="tech-list">
 
-        </div>
+            <li>Engenheiro Civil pela UFJF;</li>
 
+            <li>Mais de 9 anos de experiência em estruturas;</li>
 
-        <div class="metrics">
+            <li>
+                Participação direta em inúmeros projetos de edificações verticais
+                em praças como São Paulo e Santa Catarina, além de residências de alto padrão,
+                contenções e reservatórios;
+            </li>
 
+            <li>
+                Coordenação de Análises Técnicas de Projeto (ATP) para edificações em concreto armado/protendido, alvenaria estrutural e paredes de concreto.
+            </li>
 
-            <div class="metric">
-
-                <div class="val">
-                    118
-                </div>
-
-
-                <div class="lbl">
-                    Projetos e empreendimentos atendidos
-                </div>
-
-            </div>
-
-
-            <div class="metric">
-
-                <div class="val">
-                    114&nbsp;mil m²
-                </div>
-
-
-                <div class="lbl">
-                    Área de projetos e ATPs
-                </div>
-
-            </div>
-
-
-            <div class="metric">
-
-                <div class="val">
-                    29
-                </div>
-
-
-                <div class="lbl">
-                    Empresas atendidas
-                </div>
-
-            </div>
-
-
-        </div>
-
-    </div>
-
-</section>
-
-
-<!-- =========================================================
-     PORTFÓLIO / CARROSSEL
-     ========================================================= -->
-
-<section class="portfolio">
-
-    <div class="wrap">
-
-        <div class="carousel">
-
-
-            <button
-                class="carousel-btn carousel-prev"
-                id="carouselPrev"
-                aria-label="Projeto anterior"
-            >
-                &#10094;
-            </button>
-
-
-            <div class="carousel-window">
-
-                <div
-                    class="carousel-track"
-                    id="gallery"
-                ></div>
-
-            </div>
-
-
-            <button
-                class="carousel-btn carousel-next"
-                id="carouselNext"
-                aria-label="Próximo projeto"
-            >
-                &#10095;
-            </button>
-
-
-        </div>
+        </ul>
 
     </div>
 
@@ -1382,12 +1357,12 @@ footer .footer-meta{
 
 
             <h2>
-                Vamos conversar sobre seu próximo lançamento.
+                Vamos conversar sobre seu próximo empreendimento.
             </h2>
 
 
             <p class="lead">
-                Atendimento a construtoras e incorporadoras em todo o território nacional.
+                Atendimento a construtoras, incorporadoras e arquitetos em todo o território nacional.
             </p>
 
         </div>
@@ -1396,42 +1371,47 @@ footer .footer-meta{
         <dl>
 
 
-            <dt>
-                E-mail
-            </dt>
+            <div>
+
+                <dt>
+                    E-mail
+                </dt>
+
+                <dd>
+                    <a href="mailto:comercial@engecalc.eng.br">
+                        comercial@engecalc.eng.br
+                    </a>
+                </dd>
+
+            </div>
 
 
-            <dd>
+            <div>
 
-                <a href="mailto:comercial@engecalc.eng.br">
-                    comercial@engecalc.eng.br
-                </a>
+                <dt>
+                    Telefone
+                </dt>
 
-            </dd>
+                <dd>
+                    <a href="tel:+5532991621076">
+                        (32) 9 9162-1076
+                    </a>
+                </dd>
 
-
-            <dt>
-                Telefone
-            </dt>
-
-
-            <dd>
-
-                <a href="tel:+5532991621076">
-                    (32) 9 9162-1076
-                </a>
-
-            </dd>
+            </div>
 
 
-            <dt>
-                Operação
-            </dt>
+            <div>
 
+                <dt>
+                    Operação
+                </dt>
 
-            <dd>
-                100% remota
-            </dd>
+                <dd>
+                    100% remota
+                </dd>
+
+            </div>
 
 
         </dl>
@@ -1452,10 +1432,10 @@ footer .footer-meta{
 
         <img
             class="footer-logo"
-            src="1_sem_fundo.svg"
+            src="marca/engecalc_logo_branco.svg"
             alt="Engecalc — Engenharia Estrutural"
-            width="1500"
-            height="458">
+            width="1512"
+            height="401">
 
 
         <div class="footer-meta">
@@ -1468,228 +1448,421 @@ footer .footer-meta{
 </footer>
 
 
+<!-- =========================================================
+     BOTÃO FLUTUANTE — WHATSAPP
+     ========================================================= -->
+
+<a
+    class="whatsapp-float"
+    href="https://wa.me/5532991621076?text=Ol%C3%A1!%20Vim%20pelo%20site%20da%20Engecalc."
+    target="_blank"
+    rel="noopener"
+    aria-label="Conversar pelo WhatsApp"
+    title="Conversar pelo WhatsApp"
+>
+    <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+        <path fill="currentColor" d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/>
+    </svg>
+</a>
+
+
 <script>
 
 
 /* =========================================================
-   IMAGENS
+   PORTFÓLIO — IMAGENS DE CADA SERVIÇO
+
+   Para mostrar as imagens:
+   1. Coloque os arquivos na pasta portfolio/<serviço>/
+   2. Liste os nomes dos arquivos abaixo, na ordem desejada.
+      Ex.: "projetos-estruturais": ["01.jpg", "02.jpg"]
+
+   Enquanto a lista estiver vazia, o carrossel mostra
+   espaços reservados.
    ========================================================= */
 
-const gallery =
-    document.getElementById("gallery");
+const portfolio = {
+
+    "projetos-estruturais": [
+        "alves-do-banho-fyp-projeto-ae.jpeg",
+        "art-house-terrazzas-projeto-ca-cp.jpeg",
+        "miratti-residences-miratti-projeto-ae.jpeg",
+        "oni-mexico-peconi-projeto-ae.jpeg"
+    ],
+
+    "atp": [
+        "francisco-morato-mundo-apto-atp-ca.jpeg",
+        "frei-caneca-planik-atp-ca-ae.jpeg",
+        "ipiranga-035-emcamp-atp-pc.jpeg",
+        "leoncio-nacional-global-atp-ca.jpeg",
+        "nurban-perdizes-vitaurbana-atp-ae.jpeg",
+        "nurban-vila-buarque-vitaurbana-atp-ae.jpeg",
+        "padre-raposo-mundo-apto-atp-ca.jpeg",
+        "paraiso-canopus-atp-ae.jpeg",
+        "sao-sebastiao-mundo-apto-atp-ca.jpeg",
+        "vergueiro-mundo-apto-atp-ca.jpeg"
+    ],
+
+    "residencias": [
+        "casa-01.jpeg",
+        "casa-02.jpeg",
+        "casa-03.jpeg",
+        "casa-04.jpeg",
+        "casa-05.jpeg",
+        "casa-06.jpeg",
+        "casa-07.jpeg",
+        "casa-08.jpeg",
+        "casa-09.jpeg",
+        "casa-10.jpeg",
+        "casa-11.jpeg",
+        "casa-12.jpeg"
+    ],
+
+    "projeto-e-obra": [
+        "projeto-01.png",
+        "projeto-02.png",
+        "projeto-03.png",
+        "projeto-04.png",
+        "projeto-05.png",
+        "projeto-06.png",
+        "projeto-07.png",
+        "projeto-08.png",
+        "projeto-09.png",
+        "projeto-10.png",
+        "projeto-11.png",
+        "projeto-12.png",
+        "projeto-13.png",
+        "projeto-14.png",
+        "projeto-15.png",
+        "projeto-16.png",
+        "projeto-17.png"
+    ]
+
+};
 
 
-const images = [];
-
-
-for (let i = 1; i <= 17; i++) {
-
-    const number =
-        String(i).padStart(2, "0");
-
-    images.push(
-        `projetos/projeto-${number}.png`
-    );
-
-}
+const PLACEHOLDER_COUNT = 4;
 
 
 /* =========================================================
-   CARROSSEL INFINITO
+   CARROSSÉIS
    ========================================================= */
 
-const totalImages =
-    images.length;
+document
+    .querySelectorAll(".slider")
+    .forEach((slider) => {
 
 
-/*
-   Cinco conjuntos de imagens.
-   Isso permite que o carrossel continue
-   avançando sem precisar voltar visualmente.
-*/
-
-const copies = 5;
+        const key =
+            slider.dataset.gallery;
 
 
-const carouselImages = [];
+        const images =
+            (portfolio[key] || []).map(
+                (file) => `portfolio/${key}/${file}`
+            );
 
 
-for (let c = 0; c < copies; c++) {
+        /* Título usado no texto alternativo das imagens:
+           data-title do carrossel ou o h3 do serviço */
+        const service =
+            slider.closest(".service");
 
-    carouselImages.push(...images);
-
-}
-
-
-gallery.innerHTML = "";
-
-
-carouselImages.forEach(
-    (imagePath, index) => {
+        const title =
+            slider.dataset.title ||
+            (service
+                ? service.querySelector("h3").textContent.trim()
+                : "Imagem");
 
 
-        const item =
-            document.createElement("div");
+        const track =
+            slider.querySelector(".slider-track");
+
+        const prev =
+            slider.querySelector(".slider-prev");
+
+        const next =
+            slider.querySelector(".slider-next");
 
 
-        item.className =
-            "gallery-item";
+        const fitContain =
+            slider.dataset.fit === "contain";
 
 
-        const img =
-            document.createElement("img");
+        /* Quantidade de itens: imagens ou espaços reservados */
+        const count =
+            images.length || PLACEHOLDER_COUNT;
 
 
-        img.src =
-            imagePath;
+        function createSlide(i) {
+
+            if (images.length === 0) {
+
+                const slot =
+                    document.createElement("div");
+
+                slot.className =
+                    "slide placeholder";
+
+                slot.textContent =
+                    `Imagem ${String(i + 1).padStart(2, "0")}`;
+
+                return slot;
+
+            }
 
 
-        img.alt =
-            `Projeto estrutural ${
-                String(
-                    (index % totalImages) + 1
-                ).padStart(2, "0")
-            }`;
+            const figure =
+                document.createElement("figure");
+
+            figure.className =
+                "slide";
 
 
-        item.appendChild(img);
+            const img =
+                document.createElement("img");
+
+            img.src = images[i];
+            img.alt = `${title} — imagem ${i + 1}`;
 
 
-        item.addEventListener(
-            "click",
-            () => {
+            /* Com largura variável (contain), a posição depende do
+               tamanho real das imagens: carrega todas e reposiciona
+               quando cada uma termina de carregar */
+            if (fitContain) {
 
-                openLightbox(
-                    index % totalImages
+                img.addEventListener(
+                    "load",
+                    () => {
+                        if (!animating) {
+                            jump();
+                        }
+                    }
                 );
+
+            } else {
+
+                img.loading = "lazy";
+
+            }
+
+
+            img.addEventListener(
+                "click",
+                () => openLightbox(images, i)
+            );
+
+
+            figure.appendChild(img);
+
+            return figure;
+
+        }
+
+
+        /*
+           LOOP INFINITO
+           O conjunto de itens é repetido antes e depois do
+           conjunto principal. Ao passar do fim (ou do início),
+           o carrossel salta, sem animação, para a posição
+           equivalente no conjunto principal.
+        */
+
+        /* Com largura variável cabem mais itens na tela ao mesmo tempo */
+        const maxVisible =
+            fitContain ? 8 : 3;
+
+        const half =
+            Math.ceil(maxVisible / count);
+
+        const copies =
+            half * 2 + 1;
+
+
+        for (let c = 0; c < copies; c++) {
+
+            for (let i = 0; i < count; i++) {
+
+                const slide =
+                    createSlide(i);
+
+                if (c !== half) {
+                    slide.setAttribute("aria-hidden", "true");
+                }
+
+                track.appendChild(slide);
+
+            }
+
+        }
+
+
+        let index =
+            half * count;
+
+        let animating = false;
+
+        let fallback = null;
+
+
+        /* Desloca até o início do item atual (funciona com itens
+           de larguras iguais ou diferentes) */
+        function position() {
+
+            track.style.transform =
+                `translateX(${-track.children[index].offsetLeft}px)`;
+
+        }
+
+
+        /* Reposiciona sem animação */
+
+        function jump() {
+
+            track.style.transition = "none";
+
+            position();
+
+            void track.offsetWidth;
+
+            track.style.transition = "";
+
+        }
+
+
+        /* Ao fim da animação, volta ao conjunto principal */
+
+        function finish() {
+
+            if (!animating) {
+                return;
+            }
+
+            clearTimeout(fallback);
+
+            if (index >= (half + 1) * count) {
+                index -= count;
+            }
+
+            if (index < half * count) {
+                index += count;
+            }
+
+            jump();
+
+            animating = false;
+
+        }
+
+
+        function move(direction) {
+
+            if (animating) {
+                return;
+            }
+
+            animating = true;
+
+            index += direction;
+
+            position();
+
+
+            /* Sem animação (movimento reduzido): finaliza na hora */
+
+            if (getComputedStyle(track).transitionDuration === "0s") {
+
+                finish();
+
+                return;
+
+            }
+
+
+            fallback =
+                setTimeout(finish, 700);
+
+        }
+
+
+        track.addEventListener(
+            "transitionend",
+            (event) => {
+
+                if (
+                    event.target === track &&
+                    event.propertyName === "transform"
+                ) {
+                    finish();
+                }
 
             }
         );
 
 
-        gallery.appendChild(item);
-
-    }
-);
-
-
-const items =
-    document.querySelectorAll(
-        ".gallery-item"
-    );
+        prev.addEventListener(
+            "click",
+            () => move(-1)
+        );
 
 
-/*
-   Começa no terceiro conjunto,
-   com a imagem 3 centralizada.
-
-   17 x 2 = terceiro conjunto
-   + 2 = imagem 3
-*/
-
-let currentIndex =
-    totalImages * 2 + 2;
+        next.addEventListener(
+            "click",
+            () => move(1)
+        );
 
 
-/* =========================================================
-   ATUALIZAÇÃO DO CARROSSEL
-   ========================================================= */
+        /* Arrastar com o dedo no celular */
 
-function updateCarousel() {
+        let touchStartX = null;
 
 
-    const itemWidth =
-        items[0].offsetWidth;
+        track.addEventListener(
+            "touchstart",
+            (event) => {
+                touchStartX = event.touches[0].clientX;
+            },
+            { passive: true }
+        );
 
 
-    const gap =
-        parseFloat(
-            getComputedStyle(gallery).gap
-        ) || 0;
+        track.addEventListener(
+            "touchend",
+            (event) => {
+
+                if (touchStartX === null) {
+                    return;
+                }
+
+                const dx =
+                    event.changedTouches[0].clientX - touchStartX;
+
+                touchStartX = null;
+
+                if (Math.abs(dx) > 40) {
+                    move(dx < 0 ? 1 : -1);
+                }
+
+            }
+        );
 
 
-    const windowWidth =
-        document
-            .querySelector(
-                ".carousel-window"
-            )
-            .offsetWidth;
+        window.addEventListener(
+            "resize",
+            jump
+        );
 
 
-    const offset =
-        currentIndex *
-            (itemWidth + gap)
-        -
-        (windowWidth - itemWidth) / 2;
+        jump();
 
-
-    gallery.style.transform =
-        `translateX(${-offset}px)`;
-
-
-    items.forEach(
-        (item, index) => {
-
-            item.classList.toggle(
-                "active",
-                index === currentIndex
-            );
-
-        }
-    );
-
-}
-
-
-/* =========================================================
-   PRÓXIMO
-   ========================================================= */
-
-function nextSlide() {
-
-    currentIndex++;
-
-    updateCarousel();
-
-}
-
-
-/* =========================================================
-   ANTERIOR
-   ========================================================= */
-
-function previousSlide() {
-
-    currentIndex--;
-
-    updateCarousel();
-
-}
-
-
-/* =========================================================
-   BOTÕES
-   ========================================================= */
-
-document
-    .getElementById("carouselNext")
-    .addEventListener(
-        "click",
-        nextSlide
-    );
-
-
-document
-    .getElementById("carouselPrev")
-    .addEventListener(
-        "click",
-        previousSlide
-    );
+    });
 
 
 /* =========================================================
    LIGHTBOX
    ========================================================= */
+
+let lightboxImages = [];
 
 let currentImage = 0;
 
@@ -1706,13 +1879,15 @@ const lightboxImage =
     );
 
 
-function openLightbox(index) {
+function openLightbox(list, index) {
+
+    lightboxImages = list;
 
     currentImage = index;
 
 
     lightboxImage.src =
-        images[currentImage];
+        lightboxImages[currentImage];
 
 
     lightbox.classList.add(
@@ -1739,14 +1914,14 @@ function changeImage(direction) {
     if (currentImage < 0) {
 
         currentImage =
-            images.length - 1;
+            lightboxImages.length - 1;
 
     }
 
 
     if (
         currentImage >=
-        images.length
+        lightboxImages.length
     ) {
 
         currentImage = 0;
@@ -1755,7 +1930,7 @@ function changeImage(direction) {
 
 
     lightboxImage.src =
-        images[currentImage];
+        lightboxImages[currentImage];
 
 }
 
@@ -1825,8 +2000,8 @@ document.addEventListener(
 
 
         /*
-           Se o lightbox estiver fechado,
-           as setas controlam o carrossel.
+           Com o lightbox aberto,
+           as setas trocam as imagens.
         */
 
         if (
@@ -1835,36 +2010,9 @@ document.addEventListener(
             )
         ) {
 
-
-            if (
-                event.key ===
-                "ArrowRight"
-            ) {
-
-                nextSlide();
-
-            }
-
-
-            if (
-                event.key ===
-                "ArrowLeft"
-            ) {
-
-                previousSlide();
-
-            }
-
-
             return;
 
         }
-
-
-        /*
-           Se o lightbox estiver aberto,
-           as setas controlam as imagens.
-        */
 
         if (
             event.key ===
@@ -1896,22 +2044,6 @@ document.addEventListener(
         }
 
     }
-);
-
-
-/* =========================================================
-   INICIALIZAÇÃO
-   ========================================================= */
-
-window.addEventListener(
-    "load",
-    updateCarousel
-);
-
-
-window.addEventListener(
-    "resize",
-    updateCarousel
 );
 
 
